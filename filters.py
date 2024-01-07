@@ -40,6 +40,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -74,41 +75,72 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Show string representation of the class `AttributeFilter`."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
 class DateFilter(AttributeFilter):
-    """"A subclass of `AttributeFilter`"""
+    """A subclass of `AttributeFilter`."""
+
     @classmethod
     def get(cls, approach):
+        """Get an attribute of interest from a close approach.
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return approach.time.date()
 
 
 class DistanceFilter(AttributeFilter):
-    """"A subclass of `AttributeFilter`"""
+    """A subclass of `AttributeFilter`."""
+
     @classmethod
     def get(cls, approach):
+        """Get an attribute of interest from a close approach.
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return approach.distance
 
 
 class VelocityFilter(AttributeFilter):
-    """"A subclass of `AttributeFilter`"""
+    """A subclass of `AttributeFilter`."""
+
     @classmethod
     def get(cls, approach):
+        """Get an attribute of interest from a close approach.
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return approach.velocity
 
 
 class DiameterFilter(AttributeFilter):
-    """"A subclass of `AttributeFilter`"""
+    """A subclass of `AttributeFilter`."""
+
     @classmethod
     def get(cls, approach):
+        """Get an attribute of interest from a close approach.
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return approach.neo.diameter
 
 
 class HazardousFilter(AttributeFilter):
-    """"A subclass of `AttributeFilter`"""
+    """A subclass of `AttributeFilter`."""
+
     @classmethod
     def get(cls, approach):
+        """Get an attribute of interest from a close approach.
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return approach.neo.hazardous
 
 
@@ -148,7 +180,6 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-
     date_filter = DateFilter(operator.eq, date)
     start_date_filter = DateFilter(operator.ge, start_date)
     end_date_filter = DateFilter(operator.le, end_date)
@@ -176,7 +207,6 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-
     if n == 0 or n is None:
         for approach in islice(iterator, 0, None):
             yield approach
