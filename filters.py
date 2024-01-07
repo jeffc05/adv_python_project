@@ -58,8 +58,8 @@ class AttributeFilter:
         """Invoke `self(approach)`."""
         if self.value is None:
             return True
-        else:
-            return self.op(self.get(approach), self.value)
+
+        return self.op(self.get(approach), self.value)
 
     @classmethod
     def get(cls, approach):
@@ -78,30 +78,35 @@ class AttributeFilter:
 
 
 class DateFilter(AttributeFilter):
+    """"A subclass of `AttributeFilter`"""
     @classmethod
     def get(cls, approach):
         return approach.time.date()
-    
+
 
 class DistanceFilter(AttributeFilter):
+    """"A subclass of `AttributeFilter`"""
     @classmethod
     def get(cls, approach):
         return approach.distance
-    
+
 
 class VelocityFilter(AttributeFilter):
+    """"A subclass of `AttributeFilter`"""
     @classmethod
     def get(cls, approach):
         return approach.velocity
-    
+
 
 class DiameterFilter(AttributeFilter):
+    """"A subclass of `AttributeFilter`"""
     @classmethod
     def get(cls, approach):
         return approach.neo.diameter
-    
+
 
 class HazardousFilter(AttributeFilter):
+    """"A subclass of `AttributeFilter`"""
     @classmethod
     def get(cls, approach):
         return approach.neo.hazardous
@@ -143,7 +148,7 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
+
     date_filter = DateFilter(operator.eq, date)
     start_date_filter = DateFilter(operator.ge, start_date)
     end_date_filter = DateFilter(operator.le, end_date)
@@ -171,7 +176,7 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
+
     if n == 0 or n is None:
         for approach in islice(iterator, 0, None):
             yield approach
